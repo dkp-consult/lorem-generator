@@ -1,0 +1,17 @@
+{
+  "name": "lorem-generator",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "live-server --port=1511",
+    "build": "browserify src/js/main/app.js -o dist/app.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "browserify": "^17.0.0",
+    "live-server": "^1.1.0"
+  }
+}
