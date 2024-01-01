@@ -54,6 +54,5 @@ jobs:
           password: ${{ secrets.FTP_PASSWORD }}
           protocol: 'ftp'
           port: 21
-          security: 'none'
           local-dir: $DIST_DIR
           server-dir: /public_html/$SITE_FOLDER
