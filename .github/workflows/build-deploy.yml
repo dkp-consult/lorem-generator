@@ -31,8 +31,6 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Set Environment Variables
-        run: echo "SITE_FOLDER=lorem.dkp-consult.be/" >> $GITHUB_ENV
 
       - name: Deploy to Server via FTP
         uses: SamKirkland/FTP-Deploy-Action@master
@@ -41,4 +39,4 @@ jobs:
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
           local-dir: dist/
-          server-dir: /public_html/$SITE_FOLDER
+          server-dir: /public_html/lorem.dkp-consult.be/
