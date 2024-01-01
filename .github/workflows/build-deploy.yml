@@ -27,7 +27,7 @@ jobs:
         run: npm run build
 
       - name: List contents of dist directory
-        run: ls ${{ github.workspace }}/dist
+        run: ls $GITHUB_WORKSPACE/dist
 
   deploy:
     needs: build
@@ -39,9 +39,9 @@ jobs:
 
       - name: Debugging
         run: |
-          echo "Workspace: ${{ github.workspace }}"
+          echo "Workspace: $GITHUB_WORKSPACE"
           echo "Contents of dist directory:"
-          ls ${{ github.workspace }}/dist
+          ls $GITHUB_WORKSPACE/dist
 
       - name: Deploy to Server via FTP
         uses: SamKirkland/FTP-Deploy-Action@master
@@ -52,5 +52,5 @@ jobs:
           protocol: 'ftp'
           port: 21
           security: 'none'
-          local-dir: ${{ github.workspace }}/dist/
+          local-dir: $GITHUB_WORKSPACE/dist/
           server-dir: /public_html/$SITE_FOLDER
