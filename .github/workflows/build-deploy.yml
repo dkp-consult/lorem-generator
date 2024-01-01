@@ -35,7 +35,7 @@ jobs:
         run: echo "SITE_FOLDER=lorem.dkp-consult.be" >> $GITHUB_ENV
 
       - name: Deploy to Server via FTP
-        uses: SamKirkland/FTP-Deploy-Action@v3
+        uses: SamKirkland/FTP-Deploy-Action@master
         with:
           server: ${{ secrets.FTP_SERVER }}
           username: ${{ secrets.FTP_USERNAME }}
