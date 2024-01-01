@@ -17,7 +17,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '16'  # Mettre à jour vers Node.js 16
+          node-version: '16'
           cache: 'npm'
 
       - name: Install dependencies
@@ -26,11 +26,22 @@ jobs:
       - name: Build project
         run: npm run build
 
+      - name: List contents of dist directory
+        run: ls ${{ github.workspace }}/dist
+
   deploy:
     needs: build
     runs-on: ubuntu-latest
 
     steps:
+      - name: Set Environment Variables
+        run: echo "SITE_FOLDER=lorem.dkp-consult.be" >> $GITHUB_ENV
+
+      - name: Debugging
+        run: |
+          echo "Workspace: ${{ github.workspace }}"
+          echo "Contents of dist directory:"
+          ls ${{ github.workspace }}/dist
 
       - name: Deploy to Server via FTP
         uses: SamKirkland/FTP-Deploy-Action@master
@@ -38,5 +49,8 @@ jobs:
           server: ${{ secrets.FTP_SERVER }}
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
-          local-dir: /dist/
-          server-dir: /public_html/lorem.dkp-consult.be/
+          protocol: 'ftp'
+          port: 21
+          security: 'none'
+          local-dir: ${{ github.workspace }}/dist/
+          server-dir: /public_html/$SITE_FOLDER
