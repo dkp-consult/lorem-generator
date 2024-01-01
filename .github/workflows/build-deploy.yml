@@ -32,7 +32,7 @@ jobs:
 
     steps:
       - name: Set Environment Variables
-        run: echo "SITE_FOLDER=lorem.dkp-consult.be" >> $GITHUB_ENV
+        run: echo "SITE_FOLDER=lorem.dkp-consult.be/" >> $GITHUB_ENV
 
       - name: Deploy to Server via FTP
         uses: SamKirkland/FTP-Deploy-Action@master
