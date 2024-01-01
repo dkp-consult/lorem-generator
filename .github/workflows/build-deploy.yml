@@ -26,8 +26,11 @@ jobs:
       - name: Build project
         run: npm run build
 
+      - name: Set Dist Directory Path
+        run: echo "DIST_DIR=${GITHUB_WORKSPACE}/dist" >> $GITHUB_ENV
+
       - name: List contents of dist directory
-        run: ls $GITHUB_WORKSPACE/dist
+        run: ls $DIST_DIR
 
   deploy:
     needs: build
@@ -41,7 +44,7 @@ jobs:
         run: |
           echo "Workspace: $GITHUB_WORKSPACE"
           echo "Contents of dist directory:"
-          ls $GITHUB_WORKSPACE/dist
+          ls $DIST_DIR
 
       - name: Deploy to Server via FTP
         uses: SamKirkland/FTP-Deploy-Action@master
@@ -52,5 +55,5 @@ jobs:
           protocol: 'ftp'
           port: 21
           security: 'none'
-          local-dir: $GITHUB_WORKSPACE/dist/
+          local-dir: $DIST_DIR
           server-dir: /public_html/$SITE_FOLDER
