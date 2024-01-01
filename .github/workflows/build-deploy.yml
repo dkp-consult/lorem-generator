@@ -38,7 +38,7 @@ jobs:
 
     steps:
       - name: Set Environment Variables
-        run: echo "SITE_FOLDER=lorem.dkp-consult.be" >> $GITHUB_ENV
+        run: echo "SITE_FOLDER=lorem.dkp-consult.be/" >> $GITHUB_ENV
 
       - name: Debugging
         run: |
@@ -54,5 +54,5 @@ jobs:
           password: ${{ secrets.FTP_PASSWORD }}
           protocol: 'ftp'
           port: 21
-          local-dir: $DIST_DIR/
-          server-dir: /public_html/$SITE_FOLDER/
+          local-dir: $DIST_DIR
+          server-dir: /public_html/$SITE_FOLDER
