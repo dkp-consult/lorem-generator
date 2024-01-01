@@ -7,7 +7,7 @@ on:
       - dev
 
 jobs:
-  build:
+  build-deploy:
     runs-on: ubuntu-latest
 
     steps:
@@ -26,25 +26,8 @@ jobs:
       - name: Build project
         run: npm run build
 
-      - name: Set Dist Directory Path
-        run: echo "DIST_DIR=${GITHUB_WORKSPACE}/dist/" >> $GITHUB_ENV
-
       - name: List contents of dist directory
-        run: ls $DIST_DIR
-
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Set Environment Variables
-        run: echo "SITE_FOLDER=lorem.dkp-consult.be/" >> $GITHUB_ENV
-
-      - name: Debugging
-        run: |
-          echo "Workspace: $GITHUB_WORKSPACE"
-          echo "Contents of dist directory:"
-          ls $DIST_DIR
+        run: ls dist
 
       - name: Deploy to Server via FTP
         uses: SamKirkland/FTP-Deploy-Action@master
@@ -54,5 +37,6 @@ jobs:
           password: ${{ secrets.FTP_PASSWORD }}
           protocol: 'ftp'
           port: 21
-          local-dir: ./dist/
-          server-dir: /public_html/lorem.dkp-consult.be/
+          security: 'none'
+          local-dir: dist
+          server-dir: /public_html/lorem.dkp-consult.be
