@@ -54,5 +54,5 @@ jobs:
           password: ${{ secrets.FTP_PASSWORD }}
           protocol: 'ftp'
           port: 21
-          local-dir: $DIST_DIR
-          server-dir: /public_html/$SITE_FOLDER
+          local-dir: ./dist/
+          server-dir: /public_html/lorem.dkp-consult.be/
