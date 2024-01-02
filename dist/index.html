@@ -4,11 +4,56 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lorem Ipsum Generator</title>
-    <link rel="stylesheet" href="dist/styles.css">
+    <link rel="stylesheet" href="styles/main/styles.css">
 </head>
 <body>
     <h1>Lorem Ipsum Generator</h1>
-    <!-- ... Le reste du code HTML reste inchangé LOOOOOL ... -->
-    <script src="dist/app.js"></script>
+    <label for="numberOfUnits">Nombres de paragraphes</label>
+    <input type="number" id="numberOfUnits" placeholder="Entrer le nombre de paragraphes" />
+    <label for="lengthType">Length Type:</label>
+    <select id="lengthType">
+        <option value="paragraphs">Paragraphs</option>
+        <option value="sentences">Sentences</option>
+        <option value="words">Words</option>
+    </select>
+
+    <!-- Ajoutez ce champ de saisie après la liste déroulante de la longueur -->
+<label for="textSize">Text Size:</label>
+<input type="number" id="textSize" placeholder="Enter text size" />
+
+<label for="textColor">Text Color:</label>
+<input type="color" id="textColor" value="#000000" />
+
+<label for="backgroundColor">Background Color:</label>
+<input type="color" id="backgroundColor" value="#ffffff" />
+
+
+    <label for="customContent">Custom Content (comma-separated):</label>
+    <input type="text" id="customContent" placeholder="Enter custom content" />
+    <button onclick="formatText('bold')">Bold</button>
+    <button onclick="formatText('italic')">Italic</button>
+    <button onclick="formatText('underline')">Underline</button>
+    <button onclick="changeTheme('light')">Light Theme</button>
+    <button onclick="changeTheme('dark')">Dark Theme</button>
+    <select id="languageSelector">
+        <option value="en">English</option>
+        <option value="fr">French</option>
+    </select>
+    <div id="preview">
+        <h2>Preview</h2>
+        <p id=""></p>
+    </div>
+    <div id="history">
+        <h2>History</h2>
+        <ul id="historyList"></ul>
+    </div>
+    <div id="output" class="output"></div>
+    <div id="previewText"></div>
+
+    <button id="copyButton">Copy to Clipboard</button>
+
+    <script src="app.js"></script>
+
+    <script src="js/main/app.js"></script>
 </body>
 </html>

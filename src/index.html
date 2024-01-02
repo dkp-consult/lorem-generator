@@ -1,14 +1,26 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lorem Ipsum Generator</title>
-    <link rel="stylesheet" href="dist/styles.css">
+    <link rel="stylesheet" href="styles/main/styles.css">
 </head>
+
 <body>
     <h1>Lorem Ipsum Generator</h1>
-    <!-- ... Le reste du code HTML reste inchangé LOOOOOL ... -->
-    <script src="dist/app.js"></script>
+
+
+    <label for="numberOfParagraphs">Nombres de paragraphes:</label>
+    <input type="range" id="numberOfParagraphs" min="1" max="10" value="5" />
+    <button id="generateButton">Générer</button>
+    <div id="output" class="output"></div>
+
+    <button id="copyButton">Copier</button>
+
+
+    <script src="js/main/app.js"></script>
 </body>
+
 </html>
