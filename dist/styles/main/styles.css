@@ -16,8 +16,10 @@ label {
     margin-top: 10px;
 }
 
-input, select, button {
+input,
+button {
     margin-top: 5px;
+    margin-bottom: 20px;
 }
 
 button {
@@ -33,23 +35,39 @@ button:hover {
     background-color: #0056b3;
 }
 
-#copyButton {
-    background-color: #28a745;
-    margin-left: 10px;
-}
 
-#copyButton:hover {
-    background-color: #218838;
-}
 
-#preview, #history {
+.terminal {
+    width: 40vw;
+    background-color: #333;
+    color: #fff;
+    padding: 20px;
+    border-radius: 5px;
     margin-top: 20px;
+    margin: 0 auto; 
 }
 
-#previewText {
+#output {
     padding: 10px;
     border: 1px solid #ccc;
     border-radius: 5px;
-    background-color: #fff;
+    background-color: #585858;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1); /* Ajoute une légère ombre à l'intérieur */
     white-space: pre-wrap;
+}
+
+
+#copyButton {
+    background-color: #007BFF;
+    color: #fff;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 10px;
+    border: none;
+    border-radius: 3px;
+}
+
+#copyButton:hover {
+    background-color: #0056b3;
 }
