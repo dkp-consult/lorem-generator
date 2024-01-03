@@ -1,9 +1,35 @@
-import { copyToClipboard } from './copy.js';
-
 document.getElementById('numberOfParagraphs').addEventListener('click', function () {
     const numberOfParagraphs = document.getElementById('numberOfParagraphs').value;
     generateLoremIpsum(numberOfParagraphs);
 });
+
+
+
+document.getElementById('themeSelector').addEventListener('change', function () {
+    const selectedTheme = document.getElementById('themeSelector').value;
+    changeTheme(selectedTheme);
+});
+
+function changeTheme(theme) {
+    const terminal = document.getElementById('output');
+
+    switch (theme) {
+        case 'default':
+            terminal.style.backgroundColor = '#000';
+            terminal.style.color = '#fff';
+            break;
+        case 'dark':
+            terminal.style.backgroundColor = '#333';
+            terminal.style.color = '#fff';
+            break;
+        case 'green':
+            terminal.style.backgroundColor = '#006400';
+            terminal.style.color = '#00ff00';
+            break;
+        default:
+            break;
+    }
+}
 
 const numberOfParagraphsValue = document.getElementById('numberOfParagraphsValue');
 
@@ -31,7 +57,13 @@ function generateLoremIpsum(numberOfParagraphs) {
     // Ajoute le bouton de copie avec un événement associé
     const copyButton = document.getElementById('copyButton');
     copyButton.addEventListener('click', function () {
-            copyToClipboard();
+        const copyText = document.getElementById('output');
+        const textArea = document.createElement('textarea');
+        textArea.value = copyText.innerText;
+        document.body.appendChild(textArea);
+        textArea.select();
+        document.execCommand('copy');
+        document.body.removeChild(textArea);
     });
 }
 // Ajoute un écouteur d'événements sur le slider pour générer automatiquement

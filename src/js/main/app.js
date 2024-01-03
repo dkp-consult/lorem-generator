@@ -1,3 +1,5 @@
+import { copyToClipboard } from "./copyToClipboard";
+
 document.getElementById('numberOfParagraphs').addEventListener('click', function () {
     const numberOfParagraphs = document.getElementById('numberOfParagraphs').value;
     generateLoremIpsum(numberOfParagraphs);
@@ -56,15 +58,10 @@ function generateLoremIpsum(numberOfParagraphs) {
 
     // Ajoute le bouton de copie avec un événement associé
     const copyButton = document.getElementById('copyButton');
-    copyButton.addEventListener('click', function () {
-        const copyText = document.getElementById('output');
-        const textArea = document.createElement('textarea');
-        textArea.value = copyText.innerText;
-        document.body.appendChild(textArea);
-        textArea.select();
-        document.execCommand('copy');
-        document.body.removeChild(textArea);
-    });
+copyButton.addEventListener('click', function () {
+    const copyText = document.getElementById('output');
+    copyToClipboard(copyText.innerText);
+});
 }
 // Ajoute un écouteur d'événements sur le slider pour générer automatiquement
 document.getElementById('numberOfParagraphs').addEventListener('input', function () {

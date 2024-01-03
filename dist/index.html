@@ -15,14 +15,19 @@
     <label for="numberOfParagraphs">Nombres de paragraphes: <span id="numberOfParagraphsValue">5</span></label>
     <input type="range" id="numberOfParagraphs" min="1" max="25" value="5" />
     
+    <label for="themeSelector">Choisir un thème:</label>
+    <select id="themeSelector">
+        <option value="default">Default</option>
+        <option value="dark">Dark</option>
+        <option value="green">Green</option>
+    </select>
 
     <div class="terminal">
         <pre id="output"></pre>
         <button id="copyButton">Copy</button>
     </div>
 
-    <script src="js/main/bundle.js"></script>
-    <script src="js/main/copy.js"></script>
+    <script src="js/bundle.js"></script>
 </body>
 
 </html>
