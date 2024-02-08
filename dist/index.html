@@ -1,34 +1,29 @@
 <!DOCTYPE html>
-<html lang="fr">
-
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lorem Ipsum Generator</title>
-    <link rel="stylesheet" href="styles/styles.css">
+    <title>Quiz</title>
+    <link rel="stylesheet" type="text/css" href="styles/quizz.css">
 </head>
-
 <body>
-    <h1>Lorem Ipsum Generator</h1>
-
-
-    <label for="numberOfParagraphs">Nombres de paragraphes: <span id="numberOfParagraphsValue">5</span></label>
-    <input type="range" id="numberOfParagraphs" min="1" max="25" value="5" />
-    
-    <label for="themeSelector">UI Thème</label>
-    <select id="themeSelector"> 
-        <option value="default">Default</option>
-        <option value="dark">Dark</option>
-        <option value="green">Green</option>
-    </select>
-
-
-    <div class="terminal">
-        <pre id="output"></pre>
-        <button id="copyButton">Copy</button>
+    <!-- Section d'encodage pour ajouter des questions et réponses -->
+    <div id="encodingSection">
+        <button onclick="ajouterQuestion()">Ajouter Question</button>
+        <button onclick="genererPreview()">Générer la Prévisualisation</button>
     </div>
 
-    <script src="js/bundle.js"></script>
-</body>
+    <!-- Section de prévisualisation du QCM -->
+    <div id="previewSection">
+        <!-- La prévisualisation du QCM sera générée ici -->
+    </div>
 
+    <!-- Section du code -->
+    <div id="codeSection">
+        <textarea id="codeOutput" rows="10" cols="50" placeholder="Le code généré apparaîtra ici..."></textarea>
+        <button onclick="copierCode()">Copier le Code</button>
+    </div>
+
+    <script src="js/quizz.js"></script>
+</body>
 </html>
