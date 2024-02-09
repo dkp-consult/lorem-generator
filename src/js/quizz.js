@@ -88,7 +88,8 @@ function copierCode() {
         });
 }
 /*
-1.  Décomplexifier le process, repartir du code simple et fonctionnel initial ;
+1. Décomplexifier le process, repartir du code simple et fonctionnel initial ;
+=> Stocker les answers dans une variables incrémentée avec le numéro de la question pour faire une boucle de vérification des réponses ? 
 2. Ajouter les possibilités d'ajouts de question réponse ; 
 3. Sortir une preview ; 
 4. Générer le code complet pour intégration WP ; 
