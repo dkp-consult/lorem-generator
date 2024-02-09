@@ -27,7 +27,7 @@ function genererPreview() {
     questionBlocks.forEach((block, index) => {
         const question = block.querySelector(`input[type='text']`).value;
         const reponses = block.querySelectorAll(`.reponse${index+1}`);
-        let previewHTML = `<div class="question">Question ${index+1}: ${question}</div>`;
+        let previewHTML = `<div class="questionBlocks"><div class="question">Question ${index+1}: ${question}</div></div>`;
 
         reponses.forEach((reponse, idx) => {
             previewHTML += `<div><input type="radio" name="q${index+1}" value="${idx+1}"> ${reponse.value}</div>`;
@@ -39,8 +39,7 @@ function genererPreview() {
     totalPreviewHTML += `<button onclick="correction()">Soumettre</button><div id="resultats"></div>`;
     previewSection.innerHTML = totalPreviewHTML; // Mettre à jour la prévisualisation visuelle
 
-    // Ici, nous mettons également à jour #codeOutput avec le contenu HTML généré
-// Mettre à jour #codeOutput avec le contenu HTML généré
+    // Mettre à jour #codeOutput avec le contenu HTML généré
     const codeOutput = document.getElementById('codeOutput');
     codeOutput.value = totalPreviewHTML;
 
@@ -57,26 +56,25 @@ function genererPreview() {
     // Ajouter la fonction de correction à la fin de #codeOutput
     codeOutput.value += `
     <script>
-        function correction() {
-            let score = 0;
-            const questionBlocks = document.querySelectorAll('.questionBlock');
+    function correction() {
+        let score = 0;
+        const questionBlocks = document.querySelectorAll('.questionBlock');
 
-            questionBlocks.forEach((block, index) => {
-                const correctAnswer = block.querySelector('input[name="correct' + (index+1) + '"]:checked').value;
-                const selectedAnswer = document.querySelector('input[name="q' + (index+1) + '"]:checked');
+        questionBlocks.forEach((block, index) => {
+            const correctAnswer = block.querySelector('input[name="correct' + (index+1) + '"]:checked').value;
+            const selectedAnswer = document.querySelector('input[name="q' + (index+1) + '"]:checked');
 
-                if (selectedAnswer && selectedAnswer.value === correctAnswer) {
-                    score++;
-                }
-            });
+            if (selectedAnswer && selectedAnswer.value === correctAnswer) {
+                score++;
+            }
+        });
 
-            const resultatDiv = document.getElementById("resultats");
-            resultatDiv.innerHTML = 'Vous avez obtenu ' + score + ' sur ' + questionBlocks.length + ' réponses correctes.';
-        }
-    </script>
+        const resultatDiv = document.getElementById("resultats");
+        resultatDiv.innerHTML = 'Vous avez obtenu ' + score + ' sur ' + questionBlocks.length + ' réponses correctes.';
+    }
+</script>
     `;
 }
-
 
 function correction() {
     let score = 0;
@@ -84,9 +82,7 @@ function correction() {
 
     questionBlocks.forEach((block, index) => {
         const correctAnswer = block.querySelector(`input[name='correct${index+1}']:checked`).value;
-        const selectedAnswer = document.querySelector(`input[name='q${index+1}']:checked`);
-        const allAnswers = document.querySelectorAll(`input[name='q${index+1}']`);
-
+        const selectedAnswer = block.querySelector(`input[name='q${index+1}']:checked`) || {};
 
         if (selectedAnswer && selectedAnswer.value === correctAnswer) {
             score++;
@@ -96,6 +92,7 @@ function correction() {
     const resultatDiv = document.getElementById("resultats");
     resultatDiv.innerHTML = `Vous avez obtenu ${score} sur ${questionBlocks.length} réponses correctes.`;
 }
+
 
 function copierCode() {
     const codeOutput = document.getElementById('codeOutput');
