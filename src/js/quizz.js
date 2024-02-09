@@ -56,43 +56,25 @@ function genererPreview() {
     // Ajouter la fonction de correction à la fin de #codeOutput
     codeOutput.value += `
     <script>
-    function correction() {
-        let score = 0;
-        const questionBlocks = document.querySelectorAll('.questionBlock');
+        function correction() {
+            let score = 0;
+            const questionBlocks = document.querySelectorAll('.questionBlock');
 
-        questionBlocks.forEach((block, index) => {
-            const correctAnswer = block.querySelector('input[name="correct' + (index+1) + '"]:checked').value;
-            const selectedAnswer = document.querySelector('input[name="q' + (index+1) + '"]:checked');
+            questionBlocks.forEach((block, index) => {
+                const correctAnswer = block.querySelector('input[name="correct' + (index+1) + '"]:checked');
+                const selectedAnswer = block.querySelector('input[name="q' + (index+1) + '"]:checked');
 
-            if (selectedAnswer && selectedAnswer.value === correctAnswer) {
-                score++;
-            }
-        });
+                if (selectedAnswer && selectedAnswer.value === correctAnswer.value) {
+                    score++;
+                }
+            });
 
-        const resultatDiv = document.getElementById("resultats");
-        resultatDiv.innerHTML = 'Vous avez obtenu ' + score + ' sur ' + questionBlocks.length + ' réponses correctes.';
-    }
-</script>
+            const resultatDiv = document.getElementById("resultats");
+            resultatDiv.innerHTML = 'Vous avez obtenu ' + score + ' sur ' + questionBlocks.length + ' réponses correctes.';
+        }
+    </script>
     `;
 }
-
-function correction() {
-    let score = 0;
-    const questionBlocks = document.querySelectorAll('.questionBlock');
-
-    questionBlocks.forEach((block, index) => {
-        const correctAnswer = block.querySelector(`input[name='correct${index+1}']:checked`).value;
-        const selectedAnswer = block.querySelector(`input[name='q${index+1}']:checked`) || {};
-
-        if (selectedAnswer && selectedAnswer.value === correctAnswer) {
-            score++;
-        }
-    });
-
-    const resultatDiv = document.getElementById("resultats");
-    resultatDiv.innerHTML = `Vous avez obtenu ${score} sur ${questionBlocks.length} réponses correctes.`;
-}
-
 
 function copierCode() {
     const codeOutput = document.getElementById('codeOutput');
@@ -105,3 +87,11 @@ function copierCode() {
             alert('Erreur lors de la copie du code.');
         });
 }
+/*
+1.  Décomplexifier le process, repartir du code simple et fonctionnel initial ;
+2. Ajouter les possibilités d'ajouts de question réponse ; 
+3. Sortir une preview ; 
+4. Générer le code complet pour intégration WP ; 
+
+NB : lorsque les réponses correctes étaient stockée dans le code, celui-ci fonctionnait bcp mieux cfr. codepen
+ */
