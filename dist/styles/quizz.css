@@ -30,3 +30,10 @@ input[type="text"], textarea {
 .incorrect {
     background-color: lightcoral;
 }
+
+/*
+- Ajouter une fonction spécifique pour la correction da ns la zone preview ; 
+- Conserver la fonction exporter pour une intégration fonctionnelle ; 
+
+Faire un bouton test 
+*/
