@@ -4,13 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "npm-run-all --parallel live-server:dev watch:dev",
-    "build": "npm run build-js && npm run copy-files && npm run replace:script-path",
+    "dev": "npm-run-all --parallel live-server:dev",
+    "build": "npm run copy-files",
     "live-server:dev": "live-server --port=1511 --watch=dist",
-    "watch:dev": "onchange 'src/**/*.js' 'src/*.html' 'src/**/*.css' -- npm run build",
-    "replace:script-path": "replace-in-file 'src=\"js/main/app.js\"' 'src=\"js/bundle.js\"' dist/*.html",
-    "build-js": "browserify src/js/main/app.js -o dist/js/bundle.js -v -d -t [ babelify --presets [ @babel/preset-env ] ]",
-    "copy-files": "ncp src/styles dist/styles && cp src/*.html dist/"
+    "copy-files": "ncp src dist"
 
   },
   "keywords": [],
