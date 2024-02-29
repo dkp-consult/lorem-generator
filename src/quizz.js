@@ -97,3 +97,57 @@ document.addEventListener("DOMContentLoaded", function () {
       .catch((err) => console.error("Erreur lors de la copie :", err));
   }
   
+
+  function insererContenuDansIframe(code) {
+
+    const iframe = document.getElementById('vueLive');
+    const doc = iframe.contentDocument || iframe.contentWindow.document;
+
+    doc.open();
+    doc.write("..")
+    doc.close();
+  
+    // Extraction du JavaScript en utilisant une expression régulière
+    // Cette expression régulière est assez basique et peut nécessiter des ajustements
+    const scriptRegex = /<script.*?>([\s\S]*?)<\/script>/gi;
+    let scriptContent = '';
+    let htmlContent = code.replace(scriptRegex, function(match, group1) {
+      scriptContent += group1 + '\n';
+      return ''; // Supprime le script du HTML
+    });
+  
+    // Créez le contenu de l'iframe sans le script
+    const contenu = `
+      <!DOCTYPE html>
+      <html lang="en">
+      <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      </head>
+      <body>
+        ${htmlContent}
+      </body>
+      </html>
+    `;
+
+    // Insérer le HTML
+    doc.open();
+    doc.write(contenu);
+  
+    // Ajouter le script à la fin du body pour s'assurer qu'il est chargé après le contenu HTML
+    if (scriptContent.trim() !== '') {
+      const scriptTag = doc.createElement("script");
+      scriptTag.textContent = scriptContent;
+      doc.body.appendChild(scriptTag);
+    }
+  
+    doc.close();
+  }
+  document.getElementById('btnGenerer').addEventListener('click', function() {
+    const codeOutput = document.getElementById("codeOutput").value; // Le code généré que vous avez mentionné
+    insererContenuDansIframe(codeOutput);
+  });
+
+/* 
+L'iFrame ne fonctionne plus correctement lorsqu'il y a une modification du QCM, mais il fonctionne correctement suite au refresh de la page 
+*/
