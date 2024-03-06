@@ -30,8 +30,3 @@ input[type="text"], textarea {
 .incorrect {
     background-color: lightcoral;
 }
-
-
-#previewSection {
-    display: none;
-}
