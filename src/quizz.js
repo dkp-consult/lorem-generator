@@ -99,16 +99,30 @@ document.addEventListener("DOMContentLoaded", function () {
   
 
   function insererContenuDansIframe(code) {
-
-    const iframe = document.getElementById('vueLive');
+    // Obtenir le parent de l'iframe actuelle
+    const iframeContainer = document.getElementById('vueLive').parentNode;
+    const oldIframe = document.getElementById('vueLive');
+  
+    // Créer une nouvelle iframe
+    const newIframe = document.createElement('iframe');
+    newIframe.id = oldIframe.id;
+    newIframe.name = oldIframe.name;
+    newIframe.style.width = oldIframe.style.width; // Copiez d'autres attributs au besoin
+    newIframe.style.height = oldIframe.style.height;
+  
+    // Supprimer l'ancienne iframe et ajouter la nouvelle au conteneur
+    iframeContainer.removeChild(oldIframe);
+    iframeContainer.appendChild(newIframe);
+  
+    // Utiliser la nouvelle iframe pour le contenu
+    const iframe = newIframe;
     const doc = iframe.contentDocument || iframe.contentWindow.document;
-
+  
+    // Procédez comme avant pour insérer le contenu
     doc.open();
-    doc.write("..")
+    doc.write("..");
     doc.close();
   
-    // Extraction du JavaScript en utilisant une expression régulière
-    // Cette expression régulière est assez basique et peut nécessiter des ajustements
     const scriptRegex = /<script.*?>([\s\S]*?)<\/script>/gi;
     let scriptContent = '';
     let htmlContent = code.replace(scriptRegex, function(match, group1) {
@@ -116,7 +130,6 @@ document.addEventListener("DOMContentLoaded", function () {
       return ''; // Supprime le script du HTML
     });
   
-    // Créez le contenu de l'iframe sans le script
     const contenu = `
       <!DOCTYPE html>
       <html lang="en">
@@ -129,12 +142,10 @@ document.addEventListener("DOMContentLoaded", function () {
       </body>
       </html>
     `;
-
-    // Insérer le HTML
+  
     doc.open();
     doc.write(contenu);
   
-    // Ajouter le script à la fin du body pour s'assurer qu'il est chargé après le contenu HTML
     if (scriptContent.trim() !== '') {
       const scriptTag = doc.createElement("script");
       scriptTag.textContent = scriptContent;
@@ -143,8 +154,9 @@ document.addEventListener("DOMContentLoaded", function () {
   
     doc.close();
   }
+  
   document.getElementById('btnGenerer').addEventListener('click', function() {
-    const codeOutput = document.getElementById("codeOutput").value; // Le code généré que vous avez mentionné
+    const codeOutput = document.getElementById("codeOutput").value;
     insererContenuDansIframe(codeOutput);
   });
 
