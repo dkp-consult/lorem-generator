@@ -2,6 +2,16 @@ document.addEventListener("DOMContentLoaded", function () {
   ajouterQuestion(); // Ajouter une première question par défaut
 });
 
+function isValidHttpUrl(string) {
+  let url;
+  try {
+    url = new URL(string);
+  } catch (_) {
+    return false;
+  }
+  return url.protocol === "http:" || url.protocol === "https:";
+}
+
 let questionCount = 0; // Compteur de questions pour identifier unique
 
 function ajouterQuestion() {
@@ -9,15 +19,21 @@ function ajouterQuestion() {
   const encodingSection = document.getElementById("encodingSection");
   const questionHTML = `
   <div class="questionBlock bg-white p-4 rounded-lg mb-4">
+  <div class="mb-2">
+  <input type="text" placeholder="URL de l'image (optionnel)" id="imageUrl${questionCount}" class="imageUrl bg-gray-100 rounded border border-gray-300 p-2 w-full">
+</div>
+
   <div class="font-bold mb-2">Question ${questionCount}: <input type="text" placeholder="Votre question ici" id="question${questionCount}" class="input bg-gray-100 rounded border border-gray-300 p-2 focus:outline-none focus:border-blue-500 w-full"></div>
   <div class="flex items-center mb-2">
     <input type="text" class="reponse${questionCount} bg-gray-100 rounded border border-gray-300 p-2 focus:outline-none focus:border-blue-500 mr-2 w-full" placeholder="Réponse 1">
     <input type="radio" name="correct${questionCount}" value="1" class="focus:ring-blue-500 h-4 w-4 text-blue-600 border-gray-300">
   </div>
+
   <div class="flex items-center mb-2">
     <input type="text" class="reponse${questionCount} bg-gray-100 rounded border border-gray-300 p-2 focus:outline-none focus:border-blue-500 mr-2 w-full" placeholder="Réponse 2">
     <input type="radio" name="correct${questionCount}" value="2" class="focus:ring-blue-500 h-4 w-4 text-blue-600 border-gray-300">
   </div>
+
   <div class="flex items-center mb-2">
     <input type="text" class="reponse${questionCount} bg-gray-100 rounded border border-gray-300 p-2 focus:outline-none focus:border-blue-500 mr-2 w-full" placeholder="Réponse 3">
     <input type="radio" name="correct${questionCount}" value="3" class="focus:ring-blue-500 h-4 w-4 text-blue-600 border-gray-300">
@@ -35,13 +51,22 @@ function genererPreview() {
   const questionBlocks = document.querySelectorAll(".questionBlock");
   questionBlocks.forEach((block, index) => {
     const questionNumber = `q${index + 1}`;
-    const question = block.querySelector(`input[type='text']`).value;
+    const question = block.querySelector(`#question${index + 1}`).value;
+    const imageUrl = block.querySelector(`#imageUrl${index + 1}`).value;
     const reponses = block.querySelectorAll(`.reponse${index + 1}`);
     const correctInput = block.querySelector(`input[name='correct${index + 1}']:checked`).value;
+
+    let imageHtml = '';
+    if (imageUrl && isValidHttpUrl(imageUrl)) {
+      imageHtml = `<img src="${imageUrl}" alt="Image pour la question ${index + 1}" class="mb-2 max-w-xs mx-auto"/>`;
+    } else if (imageUrl) {
+      alert("L'URL fournie pour l'image de la question " + (index + 1) + " n'est pas valide.");
+      return;
+    }
+
     correctAnswersScript += `    "${questionNumber}": "${correctInput}",\n`;
 
-    let previewHTML = `<div class="question">Question ${index + 1
-      }: ${question}</div>`;
+    let previewHTML = `<div class="question">${imageHtml}Question ${index + 1}: ${question}</div>`;
     reponses.forEach((reponse, idx) => {
       previewHTML += `<div><input type="radio" name="${questionNumber}" value="${idx + 1}"> ${reponse.value}</div>`;
     });
@@ -53,41 +78,42 @@ function genererPreview() {
   totalPreviewHTML += `<button onclick="correction()">Soumettre</button><div id="resultats"></div>`;
 
   const correctionScript = `
-<script>
-${correctAnswersScript}
+    <script>
+    ${correctAnswersScript}
 
-function correction() {
-    let score = 0;
-    const questionBlocks = document.querySelectorAll('.questionBlock');
+    function correction() {
+        let score = 0;
+        const questionBlocks = document.querySelectorAll('.questionBlock');
 
-    questionBlocks.forEach((block, index) => {
-        const questionNumber = \`q\${index + 1}\`;
-        const correctAnswer = correctAnswers[questionNumber];
-        const options = block.querySelectorAll(\`input[name='\${questionNumber}']\`);
+        questionBlocks.forEach((block, index) => {
+            const questionNumber = \`q\${index + 1}\`;
+            const correctAnswer = correctAnswers[questionNumber];
+            const options = block.querySelectorAll(\`input[name='\${questionNumber}']\`);
 
-        options.forEach(option => {
-            const isCorrect = option.value === correctAnswer;
-            option.parentElement.classList.remove('correct', 'incorrect');
-            if (isCorrect) {
-                if (option.checked) {
-                    score++;
+            options.forEach(option => {
+                const isCorrect = option.value === correctAnswer;
+                option.parentElement.classList.remove('correct', 'incorrect');
+                if (isCorrect) {
+                    if (option.checked) {
+                        score++;
+                    }
+                    option.parentElement.style.backgroundColor = 'lightgreen'; // Correct answer
+                } else {
+                    option.parentElement.style.backgroundColor = 'lightcoral'; // Incorrect answer
                 }
-                option.parentElement.style.backgroundColor = 'lightgreen'; // Correct answer
-            } else {
-                option.parentElement.style.backgroundColor = 'lightcoral'; // Incorrect answer
-            }
+            });
         });
-    });
 
-    const resultatDiv = document.getElementById("resultats");
-    resultatDiv.innerHTML = \`Vous avez obtenu \${score} sur \${questionBlocks.length} réponses correctes.\`;
-}
-</script>`;
+        const resultatDiv = document.getElementById("resultats");
+        resultatDiv.innerHTML = \`Vous avez obtenu \${score} sur \${questionBlocks.length} réponses correctes.\`;
+    }
+    </script>`;
 
   // Mettre à jour le contenu de codeOutput
   const codeOutput = document.getElementById("codeOutput");
   codeOutput.value = totalPreviewHTML + correctionScript;
 }
+
 
 document.getElementById('btnGenerer').addEventListener('click', function () {
   const codeOutput = document.getElementById("codeOutput").value;
@@ -167,10 +193,10 @@ document.getElementById('btnGenerer').addEventListener('click', function () {
   insererContenuDansIframe(codeOutput);
 });
 
-document.getElementById('openModal').addEventListener('click', function() {
+document.getElementById('openModal').addEventListener('click', function () {
   document.getElementById('modal').classList.remove('hidden');
 });
 
-document.getElementById('closeModal').addEventListener('click', function() {
+document.getElementById('closeModal').addEventListener('click', function () {
   document.getElementById('modal').classList.add('hidden');
 });
